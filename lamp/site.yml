@@ -1,0 +1,12 @@
+---
+
+- hosts: web
+  gather_facts: true
+  become: yes
+
+  roles:
+    - roles/common
+    - roles/apache
+    - roles/mariadb
+    - roles/php
+...
