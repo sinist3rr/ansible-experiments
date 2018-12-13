@@ -1,0 +1,6 @@
+---
+# defaults file for roles/corosync
+corosync_packages:
+  - "pcs"
+  - "fence-agents-all"
+

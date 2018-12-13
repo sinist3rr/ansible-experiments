@@ -1,6 +1,6 @@
-srv1 ansible_host=192.168.56.101.nip.io
-srv2 ansible_host=192.168.56.102.nip.io
-srv3 ansible_host=192.168.56.103.nip.io
+srv1 ansible_host=192.168.56.101
+srv2 ansible_host=192.168.56.102
+srv3 ansible_host=192.168.56.103
 
 [nodes]
 srv1

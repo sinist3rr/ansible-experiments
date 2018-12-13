@@ -11,6 +11,13 @@
     name: "{{ common_packages }}"
     state: "installed"
 
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item].ansible_host }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}"
+    state: present
+  with_items: "{{ groups.all }}"
+
 - name: disable selinux
   selinux:
     state: disabled

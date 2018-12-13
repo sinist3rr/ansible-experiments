@@ -5,4 +5,5 @@
 
   roles:
     - roles/common
+    - roles/corosync
 ...

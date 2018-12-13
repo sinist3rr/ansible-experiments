@@ -1,0 +1,32 @@
+---
+# tasks file for roles/corosync
+- name: install corosync packages
+  yum:
+    name: "{{ corosync_packages }}"
+    state: "installed"
+  notify: "restart corosync"
+
+- name: This should be in a vault in real playbook of course
+  set_fact:
+    user_password: 'passw0rd'
+    user_salt: 'some_salt'
+
+- name: set password for hacluster
+  user:
+    name: "hacluster"
+    password: "{{ user_password | password_hash('sha512', user_salt) }}"
+
+- name: check that firewalld is running
+  shell: service firewalld status warn=false
+  register: _svc_firewalld
+  failed_when: _svc_firewalld.rc != 0 and ("unrecognized service" not in _svc_firewalld.stderr)
+  ignore_errors: true
+
+- name: firewalld ports for Pacemaker/Corosync
+  firewalld:
+    service: high-availability
+    permanent: true
+    immediate: true
+    state: enabled
+  when: "_svc_firewalld.rc == 0"
+

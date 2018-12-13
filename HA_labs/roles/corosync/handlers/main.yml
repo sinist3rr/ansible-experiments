@@ -1,0 +1,7 @@
+---
+# handlers file for roles/corosync
+- name: "restart corosync"
+  service:
+    name: "pcsd"
+    state: "started"
+    enabled: "yes"

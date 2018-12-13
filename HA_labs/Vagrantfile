@@ -4,14 +4,14 @@
 BOX1_IP = "192.168.56.101"
 BOX2_IP = "192.168.56.102"
 BOX3_IP = "192.168.56.103"
-DOMAIN = "nip.io"
+DOMAIN = "example.com"
 PRIVATE_KEY = "~/.ssh/id_rsa"
 PUBLIC_KEY = '~/.ssh/id_rsa.pub'
 
 Vagrant.configure("2") do |config|
   config.vm.define "srv1" do |srv1|
     srv1.vm.box = "centos/7"
-    srv1.vm.hostname = BOX1_IP + '.' + DOMAIN
+    srv1.vm.hostname = 'srv1' + '.' + DOMAIN
     srv1.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
     srv1.vm.network :private_network, ip: BOX1_IP
     srv1.ssh.insert_key = false
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "srv2" do |srv2|
     srv2.vm.box = "centos/7"
-    srv2.vm.hostname = BOX2_IP + '.' + DOMAIN
+    srv2.vm.hostname = 'srv2' + '.' + DOMAIN
     srv2.vm.network :private_network, ip: BOX2_IP
     srv2.vm.network "forwarded_port", guest: 80, host: 8080
     srv2.ssh.insert_key = false
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "srv3" do |srv3|
     srv3.vm.box = "centos/7"
-    srv3.vm.hostname = BOX3_IP + '.' + DOMAIN
+    srv3.vm.hostname = 'srv3' + '.' + DOMAIN
     srv3.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
     srv3.vm.network :private_network, ip: BOX3_IP
     srv3.ssh.insert_key = false
