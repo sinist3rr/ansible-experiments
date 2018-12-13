@@ -1,0 +1,8 @@
+---
+
+- hosts: nodes
+  become: yes
+
+  roles:
+    - roles/common
+...

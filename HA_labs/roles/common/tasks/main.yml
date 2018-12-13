@@ -1,0 +1,23 @@
+---
+# tasks file for roles/common
+- name: update all of the installed packages
+  yum:
+    name: "*"
+    state: "latest"
+    update_cache: "yes"
+
+- name: install the common packages
+  yum:
+    name: "{{ common_packages }}"
+    state: "installed"
+
+- name: disable selinux
+  selinux:
+    state: disabled
+
+- name: copy the ntp.conf to /etc/ntp.conf
+  template:
+    src: "ntp.conf.j2"
+    dest: "/etc/ntp.conf"
+  notify: "restart ntp"
+
