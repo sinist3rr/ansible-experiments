@@ -1,20 +1,74 @@
 ---
 # tasks file for roles/corosync
-- name: install corosync packages
+
+- name: Check if cluster consist of at least 2 nodes
+  fail:
+    msg: 'Cluster must have at least 2 members'
+  when: play_hosts|count() < 2
+  run_once: true
+
+- name: Install cluster packages to all nodes
   yum:
     name: "{{ corosync_packages }}"
-    state: "installed"
-  notify: "restart corosync"
+    state: 'installed'
 
-- name: This should be in a vault in real playbook of course
-  set_fact:
-    user_password: 'passw0rd'
-    user_salt: 'some_salt'
+- name: Create cluster system group
+  group:
+    name: "{{ cluster_group }}"
+    state: 'present'
 
-- name: set password for hacluster
+- name: Create cluster system user
   user:
-    name: "hacluster"
-    password: "{{ user_password | password_hash('sha512', user_salt) }}"
+    name: "{{ cluster_user }}"
+    state: 'present'
+    password: "{{ cluster_user_pass | password_hash('sha512', ansible_hostname|replace('-','x')|truncate(16, True, '', 0)) }}"
+    groups: "{{ cluster_group }}"
+    comment: 'HA Cluster Administrator'
+
+- name: Enable/Disable PCSD web GUI
+  lineinfile:
+    dest: '/etc/sysconfig/pcsd'
+    regexp: 'PCSD_DISABLE_GUI=.*'
+    line: "PCSD_DISABLE_GUI={{ enable_pcsd_gui|bool|ternary('false','true') }}"
+  when: enable_pcsd_gui != 'nochange'
+
+- name: Enable and start PCSD service
+  service:
+    name: 'pcsd'
+    enabled: true
+    state: 'started'
+
+- name: Authorize cluster nodes
+  pcs_auth:
+    node_name: "{{ hostvars[item]['ansible_fqdn'].split('.')[0] }}"
+    username: "{{ cluster_user }}"
+    password: "{{ cluster_user_pass }}"
+  with_items: "{{ play_hosts }}"
+
+- name: Setup cluster
+  pcs_cluster:
+    node_list: "{% for item in play_hosts %}{{ hostvars[item]['ansible_hostname'] }} {% endfor %}"
+    cluster_name: "{{ cluster_name }}"
+    transport: "{{ cluster_transport }}"
+    allowed_node_changes: "{% if allow_cluster_expansion|bool %}add{% else %}none{% endif %}"
+  run_once: true
+
+- name: Start cluster services on all nodes
+  service:
+    name: "{{ item }}"
+    state: 'started'
+  with_items:
+    - pacemaker
+    - corosync
+
+- name: Enable cluster services on boot
+  service:
+    name: "{{ item }}"
+    enabled: true
+  when: cluster_enable_service|bool
+  with_items:
+    - pacemaker
+    - corosync
 
 - name: check that firewalld is running
   shell: service firewalld status warn=false

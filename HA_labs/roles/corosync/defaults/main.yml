@@ -1,6 +1,39 @@
 ---
 # defaults file for roles/corosync
+pacemaker_packages:
+ - fence-agents
+ - pcs
+ - pacemaker
+
 corosync_packages:
   - "pcs"
   - "fence-agents-all"
 
+# user used for authorizing cluster nodes
+cluster_user: hacluster
+cluster_user_pass: PASS
+# group to which cluster user belongs (should be 'haclient')
+cluster_group: haclient
+
+# name of the cluster
+cluster_name: mycluster
+
+# enable cluster on boot
+cluster_enable_service: true
+
+# Enable/Disable PCSD web GUI
+# available options are:
+# 'nochange' (default) - don't change the PCSD GUI settings
+# true - enable PCSD GUI
+# false - disable PCSD GUI
+enable_pcsd_gui: 'nochange'
+
+# Cluster transport protocol
+# avaialble options:
+# 'default' (default) - use the OS default for cluster transport
+# 'udp' - UDP multicast
+# 'udpu' - UDP unicast
+cluster_transport: 'default'
+
+# Allow adding nodes to existing cluster
+allow_cluster_expansion: false

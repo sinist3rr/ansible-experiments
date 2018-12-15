@@ -1,7 +1,20 @@
 ---
 # handlers file for roles/corosync
-- name: "restart corosync"
-  service:
-    name: "pcsd"
-    state: "started"
+#- name: "restart pcsd"
+#  service:
+  #    name: "pcsd"
+  #    state: "started"
+  #    enabled: "yes"
+
+- name: restart pacemaker
+  service: 
+    name: "pacemaker"
+    state: "restarted"
     enabled: "yes"
+
+- name: restart corosync
+  service: 
+    name: "corosync"
+    state: "restarted"
+    enabled: "yes"
+
