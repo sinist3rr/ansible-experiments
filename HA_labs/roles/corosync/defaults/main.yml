@@ -21,13 +21,6 @@ cluster_name: mycluster
 # enable cluster on boot
 cluster_enable_service: true
 
-# Enable/Disable PCSD web GUI
-# available options are:
-# 'nochange' (default) - don't change the PCSD GUI settings
-# true - enable PCSD GUI
-# false - disable PCSD GUI
-enable_pcsd_gui: 'nochange'
-
 # Cluster transport protocol
 # avaialble options:
 # 'default' (default) - use the OS default for cluster transport

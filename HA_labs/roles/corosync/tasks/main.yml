@@ -25,13 +25,6 @@
     groups: "{{ cluster_group }}"
     comment: 'HA Cluster Administrator'
 
-- name: Enable/Disable PCSD web GUI
-  lineinfile:
-    dest: '/etc/sysconfig/pcsd'
-    regexp: 'PCSD_DISABLE_GUI=.*'
-    line: "PCSD_DISABLE_GUI={{ enable_pcsd_gui|bool|ternary('false','true') }}"
-  when: enable_pcsd_gui != 'nochange'
-
 - name: Enable and start PCSD service
   service:
     name: 'pcsd'
