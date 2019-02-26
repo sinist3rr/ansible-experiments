@@ -1,0 +1,129 @@
+---
+- name: update all of the installed packages
+  yum:
+    name: "*"
+    state: "latest"
+    update_cache: "yes"
+
+- name: disable selinux
+  selinux:
+    state: disabled
+
+- name: check for reboot
+  shell: if [ $(rpm -q kernel|tail -n 1) != kernel-$(uname -r) ]; then echo 'reboot'; else echo 'no'; fi
+  ignore_errors: true
+  register: reboot_hint
+  changed_when: false
+
+- name: update grub default config
+  lineinfile:
+    dest: "{{ grub_cmdline_default }}"
+    backup: True
+    backrefs: True
+    state: present
+    line: '\1 {{ grub_cmdline_add_args | join(" ") }}"'
+    regexp: '^(GRUB_CMDLINE_LINUX="(?!.*\b{{ grub_cmdline_add_args | join(" ") }}\b).*)"$'
+  when: >
+    ansible_os_family == "RedHat"
+  notify:
+    - update_grub2conf
+  register: kernelconfig
+  tags: grub
+
+- meta: flush_handlers
+
+- name: set user.max_user_namespaces
+  sysctl:
+    name: user.max_user_namespaces
+    value: 3883
+    sysctl_file: /etc/sysctl.d/99-userns.conf
+    reload: yes
+  tags: maxuser
+
+- name: reboot the server and wait to come back
+  reboot:
+  when: (reboot_hint.stdout.find("reboot") != -1) or (kernelconfig is changed)
+  tags: reboot
+
+- name: install LXD dependencies
+  yum:
+    name: "{{ lxd_packages }}"
+    state: "present"
+
+- name: install ZFS repo
+  yum:
+    name: http://download.zfsonlinux.org/epel/zfs-release.el7_6.noarch.rpm
+    state: installed
+  when: (ansible_distribution_major_version == "7") and (zfs_deploy)
+
+- name: install ZFS packages
+  yum:
+    name: "{{ zfs_packages }}"
+    state: installed
+  when: zfs_deploy
+
+- name: load ZFS kernel module
+  modprobe:
+    name: zfs
+    state: present
+  when: zfs_deploy
+
+- name: enable snapcore-el7 repo
+  command: "yum copr enable -y ngompa/snapcore-el7"
+  args:
+    creates: /etc/yum.repos.d/_copr_ngompa-snapcore-el7.repo
+    warn: False
+
+- name: install snapd
+  yum:
+    name: snapd
+    state: present
+    update_cache: yes
+
+- name: enable and start snapd.socket
+  service:
+    name: snapd.socket
+    enabled: yes
+    state: started
+
+- name: check snap list
+  command: snap list
+  args:
+    creates: /var/snap/lxd/
+  ignore_errors: yes
+
+- name: wait 3 seconds
+  pause:
+    seconds: 3
+
+- name: install LXD with snap
+  command: snap install lxd
+  args:
+    creates: /var/snap/lxd/
+  tags: snaplxd
+
+- name: adding existing user to group lxd
+  user:
+    name: '{{ user }}'
+    groups: lxd
+    append: yes
+  tags: user2group
+
+- name: copy LXD config with ZFS
+  copy:
+    src: lxd_preseed_zfs
+    dest: /tmp/lxd_preseed
+  when: zfs_deploy
+
+- name: copy LXD config with dir
+  copy:
+    src: lxd_preseed_dir
+    dest: /tmp/lxd_preseed
+  when: not zfs_deploy
+
+- name: LXD init
+  shell: executable=/usr/bin/bash set -o pipefail && cat /tmp/lxd_preseed | /var/lib/snapd/snap/bin/lxd init --preseed
+  args:
+    creates: /var/snap/lxd/common/lxd/networks/lxdbr0
+  tags: initlxd
+

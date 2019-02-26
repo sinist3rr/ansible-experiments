@@ -1,0 +1,20 @@
+---
+# tasks file for roles/lxd-hypervisor-immutable
+- name: install strace
+  yum:
+    name: strace
+    state: installed
+
+- name: add user {{ user_name }}
+  user:
+    name: "{{ user_name }}"
+    password: "$6$mysecretsalt$xvD51QS0dF9pJbJtvMvcfmQxJ9SWArHNaxU.sF4nV7HnStJm4UxhcUUoaD8xZ/ugoaqCEcMC2xvnhXNdXyBIe0"
+
+  # password: Passw0rd
+
+- name: make shadow file immutable
+  file:
+    path: /etc/shadow
+    attr: "+i"
+
+

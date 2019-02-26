@@ -1,0 +1,38 @@
+---
+# tasks file for roles/lxd-c6-provision
+- name: "create custom fact directory"
+  file:
+    path: "/etc/ansible/facts.d"
+    state: "directory"
+
+- name: "insert custom user.fact"
+  copy:
+    src: files/user.fact
+    dest: /etc/ansible/facts.d/user.fact
+    mode: 0755
+
+- name: reload ansible_local
+  setup: filter=ansible_local
+
+- name: add the dev user
+  user:
+    name: dev
+    shell: /bin/bash
+    password: "$6$mysecretsalt$xvD51QS0dF9pJbJtvMvcfmQxJ9SWArHNaxU.sF4nV7HnStJm4UxhcUUoaD8xZ/ugoaqCEcMC2xvnhXNdXyBIe0"
+  when: not ansible_local['user']['user_found']
+
+    # password: Passw0rd
+
+- name: change passwd group
+  replace:
+    path: /etc/passwd
+    regexp: '^\s*dev:x.*'
+    replace: 'dev:x:1000:::/home/dev:/bin/bash'
+- name: disable pam_loginuid
+  replace:
+    path: /etc/pam.d/sshd
+    regexp: '^\s*session\s{4}required\s{5}pam_loginuid.*'
+    replace: '#session    required     pam_loginuid.so'
+  notify: restart sshd
+
+

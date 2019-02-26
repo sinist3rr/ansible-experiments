@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IP = "192.168.56.100"
+DOMAIN = "example.com"
+PRIVATE_KEY = "~/.ssh/id_rsa"
+PUBLIC_KEY = '~/.ssh/id_rsa.pub'
+ZFSDISK = './ZFSdisk.vdi'
+
+Vagrant.configure("2") do |config|
+  config.vm.define "lxd-hypervisor" do |srv|
+    srv.vm.box = "centos/7"
+    srv.vm.hostname = 'lxdh' + '.' + DOMAIN
+    srv.vm.network :private_network, ip: BOX_IP
+    srv.vm.synced_folder '.', '/vagrant', disabled: true
+    srv.ssh.insert_key = false
+    srv.ssh.private_key_path = [PRIVATE_KEY, "~/.vagrant.d/insecure_private_key"]
+    srv.vm.provision "file", source: PUBLIC_KEY, destination: "~/.ssh/authorized_keys"
+    srv.vm.provision "shell", inline: <<-SHELL
+    ln -s /usr/share/terminfo/r/rxvt-256color /usr/share/terminfo/r/rxvt-unicode-256color
+    SHELL
+
+    srv.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 2048]
+
+    # Building disk file if it don't exist
+    if not File.exists?(ZFSDISK)
+      vb.customize ['createhd', '--filename', ZFSDISK, '--variant', 'Fixed', '--size', 10 * 1024]
+      # Adding a SATA controller that allows 2 hard drives
+      vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', 2]
+    end
+      # Attaching the disks using the SATA controller
+      vb.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', ZFSDISK]
+
+    end
+  end
+end

@@ -1,0 +1,19 @@
+---
+- hosts: lxdh.example.com
+  name: prepare server to LXD
+  become: yes
+  pre_tasks:
+    - name: compare hostname with inventory
+      fail: "msg='--- INCONSISTENT HOSTNAME: {{ ansible_nodename }} != {{ inventory_hostname }} ---'"
+      when: ansible_nodename != inventory_hostname
+  roles:
+    - lxd-inst
+    - lxd-hypervisor-make-drive
+    - lxd-hypervisor-customunit
+    - lxd-hypervisor-immutable
+  post_tasks:
+    - debug:
+        msg: "LXD hypervisor is ready to go! You can add remote lxd server:"
+    - debug:
+        msg: "lxc remote add lxdsrv 192.168.56.100"
+

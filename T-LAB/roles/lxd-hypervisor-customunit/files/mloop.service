@@ -1,0 +1,12 @@
+[Unit]
+Description=mount loop device service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/sbin/losetup /dev/loop9 /var/local/disk.img
+
+[Install]
+WantedBy=multi-user.target
+

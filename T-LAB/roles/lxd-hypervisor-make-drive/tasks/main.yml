@@ -1,0 +1,68 @@
+---
+# tasks file for roles/lxd-hypervisor-make-drive
+- name: create img file
+  command: truncate -s 1G /var/local/disk.img
+  args:
+    creates: /var/local/disk.img
+
+- name: "create custom fact directory"
+  file:
+    path: "/etc/ansible/facts.d"
+    state: "directory"
+
+- name: "insert custom finders.fact"
+  copy:
+    src: files/finders.fact
+    dest: /etc/ansible/facts.d/finders.fact
+    mode: 0755
+
+- name: reload ansible_local
+  setup: filter=ansible_local
+
+# to check local custom facts:
+# ansible -b -m setup srv -a 'filter=ansible_local'
+
+- name: create loop device
+  command: losetup /dev/loop9 /var/local/disk.img
+  when: not ansible_local['finders']['find_loop'] or not ansible_local['finders']['find_format']
+
+- name: format loop drive
+  command: mkfs.ext4 /dev/loop9
+  when: not ansible_local['finders']['find_format']
+
+- name: creates mnt directory
+  file:
+    path: /mnt/loopdrive/
+    state: directory
+  when: not ansible_local['finders']['find_loop'] or not ansible_local['finders']['find_format']
+
+- name: mount loop drive
+  mount:
+    path: /mnt/loopdrive
+    src: /dev/loop9
+    fstype: ext4
+    state: mounted
+  when: ansible_local['mount'] is not defined
+
+- name: change owner on the drive
+  file:
+    path: /mnt/loopdrive/
+    state: directory
+    owner: "{{ lxc_owner }}"
+    group: "{{ lxc_owner }}"
+  when: ansible_local['mount'] is not defined
+
+- name: unmount loop drive
+  mount:
+    path: /mnt/loopdrive
+    src: /dev/loop9
+    fstype: ext4
+    state: absent
+  when: ansible_local['mount'] is not defined
+
+- name: "insert custom mount.fact"
+  copy:
+    src: files/mount.fact
+    dest: /etc/ansible/facts.d/mount.fact
+    mode: 0755
+

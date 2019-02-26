@@ -1,0 +1,14 @@
+---
+# defaults file for roles/lxd-c8-provision
+apache_packages:
+  - "httpd"
+  - "httpd-tools"
+
+apache_group: "apache"
+document_root: "/var/www/html/webapp"
+index_file: index.html
+
+html_deploy: true
+
+html_ipaddr: "192.168.1.1"
+

@@ -1,0 +1,7 @@
+---
+# handlers file for roles/lxd-c1-provision
+- name: "restart sshd"
+  service:
+    name: "sshd"
+    state: "restarted"
+

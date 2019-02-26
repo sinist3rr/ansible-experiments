@@ -1,0 +1,9 @@
+---
+# handlers file for roles/lxd-hypervisor-customunit
+- name: "reload daemons"
+  systemd:
+    name: mloop.service
+    enabled: yes
+    state: stopped
+    daemon_reload: yes
+

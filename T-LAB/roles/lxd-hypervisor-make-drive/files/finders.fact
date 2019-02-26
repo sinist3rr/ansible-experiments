@@ -1,0 +1,22 @@
+#!/bin/bash
+set -eo pipefail
+
+FILE="/dev/loop9"
+
+if [ -b $FILE ]; then
+#   FIND_LOOP=`losetup -a | grep loop9 | awk '{print $1}' | rev | cut -c 2- | rev | cut -d '/' -f 3`
+   FIND_LOOP="loop9"
+   FIND_FORMAT=`file -sL /dev/loop9 | awk '{print $5}'`
+else
+   FIND_LOOP=""
+   FIND_FORMAT=""
+fi
+
+
+cat <<EOF
+{
+    "find_loop" : "$FIND_LOOP",
+    "find_format" : "$FIND_FORMAT"
+}
+EOF
+

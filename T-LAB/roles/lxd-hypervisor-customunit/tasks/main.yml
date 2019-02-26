@@ -1,0 +1,15 @@
+---
+# tasks file for roles/lxd-hypervisor-customunit
+- name: copy mloop unit file
+  copy:
+    src: mloop.service
+    dest: /etc/systemd/system/mloop.service
+  notify: reload daemons
+
+- name: change lxd daemon unit
+  replace:
+    path: /etc/systemd/system/snap.lxd.daemon.service
+    regexp: '^\s*After=var-lib-snapd.*$'
+    replace: 'After=var-lib-snapd-snap-lxd-10150.mount mloop.service network.target'
+  notify: reload daemons
+

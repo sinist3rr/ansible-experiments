@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if grep -q dev /etc/passwd; then
+    USER=true
+else
+    USER=""
+fi
+
+cat <<EOF
+{
+    "user_found" : "$USER"
+}
+EOF
+

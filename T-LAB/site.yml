@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  name: create LXC containers
+  roles:
+    - lxd-make
+
+- hosts:
+    - containers
+    - container_hdd
+  name: provisioning all containers
+  gather_facts: no
+  roles:
+    - lxd-provision
+
+- hosts: c1
+  name: provisioning c1
+  roles:
+    - lxd-c1-provision
+
+- hosts: c2
+  name: provisioning c2
+  roles:
+    - lxd-c2-provision
+  post_tasks:
+    - name: check http
+      uri:
+        url: http://localhost
+        status_code: 403
+
+- hosts: c3
+  name: provisioning c3
+  roles:
+    - lxd-c3-provision
+
+- hosts: c4
+  name: provisioning c4
+  roles:
+    - lxd-c4-provision
+
+- hosts: c5
+  name: provisioning c5
+  roles:
+    - lxd-c5-provision
+
+- hosts: c6
+  name: provisioning c6
+  roles:
+    - lxd-c6-provision
+
+- hosts: c7
+  name: provisioning c7
+  roles:
+    - lxd-c7-provision
+
+- hosts: c8
+  name: provisioning c8
+  roles:
+    - lxd-c8-provision
+  post_tasks:
+    - name: check http
+      uri:
+        url: http://localhost
+        status_code: 200
+

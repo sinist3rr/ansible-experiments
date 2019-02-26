@@ -1,0 +1,16 @@
+---
+# tasks file for roles/lxd-provision
+- name: set root password
+  user:
+    name: root
+    password: "$6$salt$SgI23q9b9BpAdsi8MajTAiJ/IMhbycd/JZGSu4sJ9uU5q6Yc9KL1KLg3lF0sjirG1hfY3VRo/GUoCoOKkvAxm."
+
+    # password: toor
+
+
+- name: install the common packages
+  yum:
+    name: "{{ common_packages }}"
+    state: "installed"
+  notify: restart sshd
+

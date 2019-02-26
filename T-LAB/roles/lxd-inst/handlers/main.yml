@@ -1,0 +1,5 @@
+---
+# handlers file for roles/lxd-inst
+- name: update_grub2conf
+  command: grub2-mkconfig -o {{ grub_cmdline_config_v2 }}
+

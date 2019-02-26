@@ -1,0 +1,11 @@
+[Service]
+User=prometheus
+Group=prometheus
+ExecStart=/mnt/vars/prometheus/prometheus \
+              --config.file=/mnt/vars/prometheus/prometheus.yaml \
+              --storage.tsdb.path=/mnt/vars/prometheus/data
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+

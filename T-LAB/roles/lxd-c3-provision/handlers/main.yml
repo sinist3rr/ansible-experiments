@@ -1,0 +1,15 @@
+---
+# handlers file for roles/lxd-c3-provision
+- name: "restart httpd"
+  service:
+    name: "httpd"
+    state: "restarted"
+    enabled: yes
+
+- name: "reload daemons"
+  systemd:
+    name: httpd
+    enabled: no
+    state: stopped
+    daemon_reload: yes
+

@@ -1,0 +1,26 @@
+---
+# defaults file for roles/lxd-inst
+lxd_packages:
+  - "ntp"
+  - "ntpdate"
+  - "vim-enhanced"
+  - "git"
+  - "unzip"
+  - "epel-release"
+  - "libselinux-python"
+  - "yum-plugin-copr"
+
+zfs_packages:
+  - "kernel-devel"
+  - "zfs"
+
+grub_cmdline_default: /etc/default/grub
+grub_cmdline_add_args:
+  - user_namespace.enable=1
+  - namespace.unpriv_enable=1
+
+grub_cmdline_config_v2: /boot/grub2/grub.cfg
+
+user: vagrant
+
+zfs_deploy: true

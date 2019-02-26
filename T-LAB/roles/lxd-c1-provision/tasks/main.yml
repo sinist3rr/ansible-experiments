@@ -1,0 +1,27 @@
+---
+# tasks file for roles/lxd-c1-provision
+- name: add user {{ user_name }}
+  user:
+    name: "{{ user_name }}"
+    shell: /bin/false
+    password: "$6$mysecretsalt$xvD51QS0dF9pJbJtvMvcfmQxJ9SWArHNaxU.sF4nV7HnStJm4UxhcUUoaD8xZ/ugoaqCEcMC2xvnhXNdXyBIe0"
+
+    # password: Passw0rd
+
+- name: "add {{ group_name }} to AllowGroups"
+  lineinfile:
+     dest: /etc/ssh/sshd_config
+     backup: True
+     backrefs: False
+     state: present
+     regexp: '^(.*)AllowGroups(.*)$'
+     line: 'AllowGroups {{ group_name }}'
+  notify: restart sshd
+
+- name: disable pam_loginuid
+  replace:
+    path: /etc/pam.d/sshd
+    regexp: '^\s*session\s{4}required\s{5}pam_loginuid.*'
+    replace: '#session    required     pam_loginuid.so'
+  notify: restart sshd
+

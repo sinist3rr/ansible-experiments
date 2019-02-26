@@ -1,0 +1,5 @@
+---
+# defaults file for roles/lxd-c4-provision
+prometheus_version: "latest"
+
+

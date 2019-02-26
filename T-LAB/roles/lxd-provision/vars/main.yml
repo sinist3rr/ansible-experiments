@@ -1,0 +1,9 @@
+---
+# vars file for roles/lxd-provision
+common_packages:
+  - "less"
+  - "openssh-server"
+  - "which"
+  - "strace"
+  #  - "epel-release"
+

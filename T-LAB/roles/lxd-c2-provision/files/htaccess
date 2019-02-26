@@ -1,0 +1,14 @@
+Deny from all
+
+RewriteCond %{HTTP_USER_AGENT} ^.*iPad.*$
+RewriteRule ^(.*)$ http://yourdomain.com/folderfortablets [R=301]
+RewriteCond %{HTTP_USER_AGENT} ^.*Android.*$
+RewriteRule ^(.*)$ http://yourdomain.com/folderfortablets [R=301]
+AddType application/octet-stream .csv
+AddType application/octet-stream .xls
+AddType application/octet-stream .doc
+AddType application/octet-stream .avi
+AddType application/octet-stream .mpg
+AddType application/octet-stream .mov
+AddType application/octet-stream .pdf
+

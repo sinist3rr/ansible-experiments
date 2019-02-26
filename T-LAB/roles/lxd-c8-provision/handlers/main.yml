@@ -1,0 +1,9 @@
+---
+# handlers file for roles/lxd-c2-provision
+- name: "restart httpd"
+  service:
+    name: "httpd"
+    state: "restarted"
+    enabled: yes
+
+

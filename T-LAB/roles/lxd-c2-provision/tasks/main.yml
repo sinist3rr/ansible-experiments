@@ -1,0 +1,51 @@
+---
+# tasks file for roles/lxd-c2-provision
+- name: install the apache packages
+  yum:
+    name: "{{ apache_packages }}"
+    state: "installed"
+
+- name: create the document root for the website
+  file:
+    dest: "{{ document_root }}"
+    state: "directory"
+    mode: "0644"
+    owner: "apache"
+    group: "{{ apache_group }}"
+
+- name: set the permissions on the web folder
+  file:
+    dest: "{{ document_root }}"
+    state: "directory"
+    mode: "0644"
+    owner: "apache"
+
+- name: delete default welcome.conf
+  file:
+    path: /etc/httpd/conf.d/welcome.conf
+    state: absent
+  notify: "restart httpd"
+
+- name: copy the vhost.conf to /etc/httpd/conf.d/
+  template:
+    src: "vhost.conf.j2"
+    dest: "/etc/httpd/conf.d/vhost.conf"
+  notify: "restart httpd"
+
+- name: copy htaccess file
+  copy:
+    src: htaccess
+    dest: /var/www/html/webapp/.htaccess
+    owner: apache
+    group: "{{ apache_group }}"
+    mode: 0644
+
+- name: copy the test HTML page to the document root
+  template:
+    src: "index.html.j2"
+    dest: "{{ document_root }}/index.html"
+    mode: "0644"
+    owner: "apache"
+    group: "{{ apache_group }}"
+  when: html_deploy
+

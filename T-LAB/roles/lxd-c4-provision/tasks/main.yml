@@ -1,0 +1,109 @@
+---
+# tasks file for roles/lxd-c4-provision
+- name: "create custom fact directory"
+  file:
+    path: "/etc/ansible/facts.d"
+    state: "directory"
+
+- name: "insert custom inodes.fact"
+  copy:
+    src: files/inodes.fact
+    dest: /etc/ansible/facts.d/inodes.fact
+    mode: 0755
+
+- name: reload ansible_local
+  setup: filter=ansible_local
+
+- name: copy crash script
+  copy:
+    src: cra.sh
+    dest: /usr/local/bin/cra.sh
+    mode: 0744
+
+- name: run crash script
+  command: /usr/local/bin/cra.sh
+  when: ansible_local['inodes']['inodes_count'] != '1'
+
+- name: ensure that the prometheus user exists
+  user:
+    name: "{{ prometheus_user }}"
+    shell: /bin/false
+
+- name: ensure that prometheus dir exists
+  file:
+    state: directory
+    path: /mnt/vars/prometheus
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0755
+
+- block:
+    - name: get latest release
+      uri:
+        url: "https://api.github.com/repos/prometheus/prometheus/releases/latest"
+        method: GET
+        return_content: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+        user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
+        password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
+      no_log: true
+      register: _latest_release
+      until: _latest_release.status == 200
+      retries: 5
+
+    - name: "set prometheus version to {{ _latest_release.json.tag_name[1:] }}"
+      set_fact:
+        prometheus_version: "{{ _latest_release.json.tag_name[1:] }}"
+  when: prometheus_version == "latest"
+
+- name: download prometheus binary to local folder
+  become: false
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.tar.gz"
+    dest: "/tmp/prometheus-{{ prometheus_version }}.linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.tar.gz"
+  register: _download_archive
+  until: _download_archive is succeeded
+  retries: 5
+  delay: 2
+  delegate_to: localhost
+  check_mode: false
+
+- name: unpack prometheus binaries
+  become: false
+  unarchive:
+    src: "/tmp/prometheus-{{ prometheus_version }}.linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.tar.gz"
+    dest: "/tmp"
+    creates: "/tmp/prometheus-{{ prometheus_version }}.linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}/prometheus"
+  delegate_to: localhost
+  check_mode: false
+
+- name: copy the server binary to {{ server_binary_dest }}
+  copy:
+    src: "/tmp/prometheus-{{ prometheus_version }}.linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}/{{ server_binary }}"
+    dest: "{{ server_binary_dest }}"
+    mode: 0755
+
+- name: place prometheus config
+  template:
+    src: prometheus.yaml.j2
+    dest: /mnt/vars/prometheus/prometheus.yaml
+
+- name: put systemd service file in place
+  copy:
+    src: "{{ server_service }}"
+    dest: "{{ server_service_dest }}"
+  notify: restart prometheus
+
+- name: stop and disable prometheus
+  service:
+    name: "prometheus"
+    state: "stopped"
+    enabled: no
+
+- name: clean data folder
+  file:
+    state: absent
+    path: /mnt/vars/prometheus/data/
+

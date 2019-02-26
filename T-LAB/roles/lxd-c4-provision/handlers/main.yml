@@ -1,0 +1,9 @@
+---
+# handlers file for roles/lxd-c4-provision
+- name: restart prometheus
+  systemd:
+    daemon-reload: true
+    state: stopped
+    name: "{{ server_service }}"
+
+

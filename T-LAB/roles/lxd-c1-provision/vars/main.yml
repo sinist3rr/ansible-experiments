@@ -1,0 +1,5 @@
+---
+# vars file for roles/lxd-c1-provision
+group_name: "root"
+user_name: "james"
+

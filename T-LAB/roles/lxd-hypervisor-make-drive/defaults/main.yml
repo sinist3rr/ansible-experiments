@@ -1,0 +1,6 @@
+---
+# defaults file for roles/lxd-hypervisor-make-drive
+
+lxc_owner: 1000000
+# impossible to check before container's creation
+

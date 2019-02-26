@@ -1,0 +1,11 @@
+#!/bin/bash
+set -eo pipefail
+
+INODECOUNT=`df -i | grep loop9 | awk '{print $4}'`
+
+cat <<EOF
+{
+    "inodes_count" : "$INODECOUNT"
+}
+EOF
+

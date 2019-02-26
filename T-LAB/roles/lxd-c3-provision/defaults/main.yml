@@ -1,0 +1,18 @@
+---
+# defaults file for roles/lxd-c3-provision
+packages:
+  - "httpd"
+  - "httpd-tools"
+  - "vsftpd"
+
+apache_group: "apache"
+document_root: "/var/www/html/webapp"
+index_file: index.html
+
+html_deploy: true
+html_heading: "Done!"
+html_body: |
+  This HTML page has been deployed using Ansible to <b>{{ ansible_nodename }}</b>.<br>
+  The system is <b>{{ ansible_os_family }}</b>.<br>
+  The weboot is <b>{{ document_root }}</b>, the default index file is <b>{{ index_file }}</b>.<br>
+

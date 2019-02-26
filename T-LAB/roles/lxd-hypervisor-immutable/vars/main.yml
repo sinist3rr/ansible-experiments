@@ -1,0 +1,4 @@
+---
+# vars file for roles/lxd-hypervisor-immutable
+user_name: "admin"
+

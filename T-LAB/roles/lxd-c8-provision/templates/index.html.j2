@@ -1,0 +1,217 @@
+<!--{{ ansible_managed }}-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>T-LAB</title>
+    <!-- load CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!-- Templatemo style -->
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <header class="text-center tm-site-header">
+                    <div class="tm-site-logo"></div>
+                    <h1 class="pl-4 tm-site-title">troubleshooting LAB</h1>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tm-video-container" align="center">
+<img src="img/fire.gif" alt="screensaver"> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container tm-container-2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="tm-welcome-text">Tickets:</h2>
+                </div>
+            </div>
+            <div class="row tm-section-mb">
+                <div class="col-lg-12">
+                    <div class=" tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №1</h3>
+                                    <p>Разработчик james сообщил, что больше не может зайти на сервер по ssh (cо своим паролем Passw0rd). <p></p> Необходимо проверить, и если проблема будет подтверждена то исправить.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2201 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №2</h3>
+                                    <p>Разработчик D. сообщил, что он ничего не делал, но сайт http://{{ html_ipaddr }}:8082 внезапно перестал открываться. <p></p> Необходимо выяснить причину и исправить.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2202 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №3</h3>
+                                    <p>Пользователь N. сообщил, что перестал открываться сайт http://{{ html_ipaddr }}:8083. <p></p> Необходимо перепроверить, если этот факт подтвердится, то определить и исправить.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2203 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+
+
+<!-- use blocks like this-->
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №4</h3>
+                                    <p>Разработчик D. сообщил, что у него перестал открываться Prometheus (http://{{ html_ipaddr }}:9090). <p></p> Проверить и исправить если проблема будет обнаружена.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2204 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №5</h3>
+                                    <p>Разработчик N. сообщил, что nmap перестал сканировать сети (nmap -sn 10.204.58.0/24). <p></p> Нужно выяснить в чем проблема и оперативно исправить.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2205 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №6</h3>
+                                    <p>Разработчик dev сообщает, что не может подключиться по ssh c паролем Passw0rd. <p></p> Необходимо проверить и исправить проблему если она будет найдена.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2206 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err4.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <h3 class="tm-text-green tm-font-400">Ticket №7</h3>
+                                    <p>Пользователь N. сообщил, что сайт http://{{ html_ipaddr }}:8087 сегодня стал недоступен. <p></p> Необходимо выяснить причины и исправить неполадки.</p>
+                                    <p class="tm-text-green float-right mb-0">ssh root@{{ html_ipaddr }} -p 2207 (пароль toor)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+
+<!-- use blocks like this-->
+
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="img/err2.png" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <h3 class="tm-text-orange tm-font-400">Ticket №8 <p></p> (станет доступен только после закрытия всех предыдущих)</h3>
+                                    <p>Администратор admin сообщил, что не может изменить в системе свой собственный пароль.<p></p> Вам, как ведущему специалисту, необходимо выяснить причину и исправить проблему.</p>
+                                    <p class="tm-text-orange float-right mb-0">ssh root@{{ html_ipaddr }} -p 22 (пароль ********)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--  row -->
+            <hr>
+        <!-- Footer -->
+        <footer class="row mt-5 mb-5">
+            <div class="col-lg-12">
+                <p class="text-center tm-text-gray tm-copyright-text mb-0">Copyright &copy;
+                    <span class="tm-current-year">2019</span> sinist3r 
+                    
+                    | Design: <a href="http://templatemo.com/tm-517-timeless" class="tm-text-white">Timeless</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+    <!-- .container -->
+
+    <script src="js/jquery.min.js"></script>
+    <!-- <script src="js/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="js/templatemo-script.js"></script>
+
+</body>
+</html>
