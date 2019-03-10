@@ -1,0 +1,34 @@
+---
+# defaults file for roles/graylog-server
+graylog_java: "java-1.8.0-openjdk-headless.x86_64"
+graylog_mongodb_redhat_repo: "https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/"
+graylog_mongodb_redhat_key: "https://www.mongodb.org/static/pgp/server-4.0.asc"
+graylog_elasticsearch_redhat_enterprise_repo: "https://artifacts.elastic.co/packages/6.x/yum"
+graylog_elasticsearch_redhat_repo: "https://artifacts.elastic.co/packages/oss-6.x/yum"
+graylog_elasticsearch_redhat_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+graylog_es_name: "graylog"
+
+graylog_version: "3.0"
+graylog_yum_rpm_url: "https://packages.graylog2.org/repo/packages/graylog-{{ graylog_version }}-repository_latest.rpm"
+
+# General
+graylog_is_master:            True
+graylog_node_id_file:         "/etc/graylog/server/node-id"
+graylog_password_secret:      "fAwvF7TuOkHKNZa3EylF2pGZowIrJCJO2HwwNlCJHExHRxUjSLWrZC6xQJXAjyY9XGmFYaeh7WkJ1TjthqnAJffsIgV2GH0x"
+graylog_root_username:        "admin"
+graylog_root_password_sha2:   "164fd002d78f0579962350004c1fbebc4f8c6e2cb1d8e9e05f4a9448c970bfdc"
+# default pass = 'graylogPASS'
+graylog_plugin_dir:           "/usr/share/graylog-server/plugin"
+graylog_root_email:           ""
+graylog_root_timezone:        "UTC"
+graylog_alert_check_interval: 60
+graylog_disable_sigar: False
+
+# Web UI
+graylog_web_enable:                  True
+graylog_web_listen_uri: "http://0.0.0.0:9000/"
+graylog_nginx_listen_uri: "http://0.0.0.0/"
+graylog_install_nginx: True
+
+
+

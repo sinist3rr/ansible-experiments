@@ -1,0 +1,12 @@
+---
+- hosts: graylogg.example.com
+  name: setup graylog server
+  become: yes
+  pre_tasks:
+    - name: compare hostname with inventory
+      fail: "msg='--- INCONSISTENT HOSTNAME: {{ ansible_nodename }} != {{ inventory_hostname }} ---'"
+      when: ansible_nodename != inventory_hostname
+  roles:
+    - init
+    - graylog-server
+

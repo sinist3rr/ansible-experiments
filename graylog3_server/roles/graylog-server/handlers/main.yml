@@ -1,0 +1,32 @@
+---
+# handlers file for roles/graylog-server
+- name: "restart graylog-server"
+  systemd:
+    name: "graylog-server"
+    state: "restarted"
+    enabled: "yes"
+
+- name: "restart mongod"
+  systemd:
+    name: "mongod"
+    state: "restarted"
+    enabled: "yes"
+
+- name: "restart elasticsearch"
+  systemd:
+    name: "elasticsearch"
+    state: "restarted"
+    enabled: "yes"
+
+- name: "restart graylog-server"
+  systemd:
+    name: "graylog-server"
+    state: "restarted"
+    enabled: "yes"
+
+- name: "restart nginx"
+  systemd:
+    name: "nginx"
+    state: "restarted"
+    enabled: "yes"
+
