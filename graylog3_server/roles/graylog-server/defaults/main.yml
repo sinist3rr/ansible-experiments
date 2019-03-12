@@ -43,25 +43,27 @@ graylog_trusted_proxies:                   ""
 
 # Elasticsearch
 graylog_elasticsearch_hosts:                            "http://127.0.0.1:9200"
-#graylog_elasticsearch_template_name:                    "graylog-internal"
+graylog_elasticsearch_template_name:                    "graylog-internal"
 graylog_allow_leading_wildcard_searches:                false
 graylog_allow_highlighting:                             false
-graylog_elasticsearch_config_file:                      ""
-#graylog_elasticsearch_index_prefix:                     "graylog"
+graylog_elasticsearch_index_prefix:                     "graylog"
 graylog_elasticsearch_analyzer:                         "standard"
 graylog_elasticsearch_output_batch_size:                500
 graylog_elasticsearch_output_flush_interval:            1
 graylog_elasticsearch_disable_version_check:            true
-#graylog_elasticsearch_http_enabled:                     false
 graylog_disable_index_optimization:                     false
 graylog_index_optimization_max_num_segments:            1
+graylog_elasticsearch_shards:                           4
+graylog_elasticsearch_replicas:                         0
 
 # Rotation
-graylog_no_retention: false
+graylog_no_retention:                                   false
+graylog_rotation_strategy:                              "count"
+graylog_elasticsearch_max_docs_per_index:               20000000
+graylog_elasticsearch_max_number_of_indices:            20
+graylog_retention_strategy:                             "delete"
 
 # Timeouts
-#graylog_elasticsearch_cluster_discovery_timeout:       5000
-#graylog_elasticsearch_discovery_initial_state_timeout: "3s"
 graylog_elasticsearch_request_timeout:                 "1m"
 graylog_index_ranges_cleanup_interval:                 "1h"
 graylog_stream_processing_timeout:                     2000
@@ -78,7 +80,6 @@ graylog_dashboard_widget_default_cache_time:           "10s"
 graylog_processbuffer_processors:         5
 graylog_outputbuffer_processors:          3
 graylog_processor_wait_strategy:          "blocking"
-#graylog_dead_letters_enabled:             False
 graylog_lb_recognition_period_seconds:    3
 graylog_lb_throttle_threshold_percentage: 95
 graylog_stream_processing_max_faults:     3
@@ -123,6 +124,7 @@ graylog_transport_email_from_email:        "graylog@example.com"
 graylog_transport_email_web_interface_url: "http://graylog.example.com"
 
 # Web UI
+graylog_web_listen_uri: "http://0.0.0.0:9000/"
 graylog_nginx_listen_uri: "http://0.0.0.0/"
 graylog_install_nginx: True
 

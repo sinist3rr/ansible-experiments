@@ -219,7 +219,7 @@ elasticsearch_hosts = {{ graylog_elasticsearch_hosts }}
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-rotation_strategy = count
+rotation_strategy = {{ graylog_rotation_strategy }}
 
 # (Approximate) maximum number of documents in an Elasticsearch index before a new index
 # is being created, also see no_retention and elasticsearch_max_number_of_indices.
@@ -230,7 +230,7 @@ rotation_strategy = count
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-elasticsearch_max_docs_per_index = 20000000
+elasticsearch_max_docs_per_index = {{ graylog_elasticsearch_max_docs_per_index }}
 
 # (Approximate) maximum size in bytes per Elasticsearch index on disk before a new index is being created, also see
 # no_retention and elasticsearch_max_number_of_indices. Default is 1GB.
@@ -275,7 +275,7 @@ no_retention = {{ graylog_no_retention }}
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-elasticsearch_max_number_of_indices = 20
+elasticsearch_max_number_of_indices = {{ graylog_elasticsearch_max_number_of_indices }}
 
 # Decide what happens with the oldest indices when the maximum number of indices is reached.
 # The following strategies are availble:
@@ -287,7 +287,7 @@ elasticsearch_max_number_of_indices = 20
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-retention_strategy = delete
+retention_strategy = {{ graylog_retention_strategy }}
 
 # How many Elasticsearch shards and replicas should be used per index? Note that this only applies to newly created indices.
 # ATTENTION: These settings have been moved to the database in Graylog 2.2.0. When you upgrade, make sure to set these
@@ -295,8 +295,8 @@ retention_strategy = delete
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-elasticsearch_shards = 4
-elasticsearch_replicas = 0
+elasticsearch_shards = {{ graylog_elasticsearch_shards }}
+elasticsearch_replicas = {{ graylog_elasticsearch_replicas }}
 
 # Prefix for all Elasticsearch indices and index aliases managed by Graylog.
 #
@@ -305,7 +305,7 @@ elasticsearch_replicas = 0
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-elasticsearch_index_prefix = graylog
+elasticsearch_index_prefix = {{ graylog_elasticsearch_index_prefix }}
 
 # Name of the Elasticsearch index template used by Graylog to apply the mandatory index mapping.
 # Default: graylog-internal
@@ -315,7 +315,7 @@ elasticsearch_index_prefix = graylog
 #            This configuration setting is only used on the first start of Graylog. After that,
 #            index related settings can be changed in the Graylog web interface on the 'System / Indices' page.
 #            Also see http://docs.graylog.org/en/2.3/pages/configuration/index_model.html#index-set-configuration.
-#elasticsearch_template_name = graylog-internal
+elasticsearch_template_name = {{ graylog_elasticsearch_template_name }}
 
 # Do you want to allow searches with leading wildcards? This can be extremely resource hungry and should only
 # be enabled with care. See also: http://docs.graylog.org/en/2.1/pages/queries.html
