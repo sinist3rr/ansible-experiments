@@ -7,6 +7,9 @@
       fail: "msg='--- INCONSISTENT HOSTNAME: {{ ansible_nodename }} != {{ inventory_hostname }} ---'"
       when: ansible_nodename != inventory_hostname
   roles:
-    - init
-    - graylog-server
+    - role: init
+    - role: graylog-server
+      vars:
+        graylog_root_timezone: "Europe/Kiev"
+        graylog_elasticsearch_shards: 1
 
