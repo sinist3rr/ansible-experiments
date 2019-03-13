@@ -1,26 +1,15 @@
 graylogg.example.com ansible_host=192.168.56.100
 srv ansible_host=192.168.56.100
 
-[container_hdd]
-c4   ansible_host=lxdsrv:c4
-
 [nodes]
 srv
 graylogg.example.com
 
 [containers]
-c1   ip_address=10.204.58.111 tcp_port22=tcp:0.0.0.0:2201 tcp_port80=tcp:0.0.0.0:8081  ansible_host=lxdsrv:c1
-c2   ip_address=10.204.58.112 tcp_port22=tcp:0.0.0.0:2202 tcp_port80=tcp:0.0.0.0:8082  ansible_host=lxdsrv:c2
-c3   ip_address=10.204.58.113 tcp_port22=tcp:0.0.0.0:2203 tcp_port80=tcp:0.0.0.0:8083  ansible_host=lxdsrv:c3
-c5   ip_address=10.204.58.115 tcp_port22=tcp:0.0.0.0:2205 tcp_port80=tcp:0.0.0.0:8085  ansible_host=lxdsrv:c5
-c6   ip_address=10.204.58.116 tcp_port22=tcp:0.0.0.0:2206 tcp_port80=tcp:0.0.0.0:8086  ansible_host=lxdsrv:c6
-c7   ip_address=10.204.58.117 tcp_port22=tcp:0.0.0.0:2207 tcp_port80=tcp:0.0.0.0:8087  ansible_host=lxdsrv:c7
-c8   ip_address=10.204.58.118 tcp_port22=tcp:0.0.0.0:2208 tcp_port80=tcp:0.0.0.0:8088  ansible_host=lxdsrv:c8
+c1   ip_address=10.204.58.111
+c2   ip_address=10.204.58.112
 
 [containers:vars]
-ansible_connection=lxd
-
-[container_hdd:vars]
 ansible_connection=lxd
 
 [nodes:vars]
