@@ -24,6 +24,7 @@
 - name: disable selinux
   selinux:
     state: disabled
+  tags: selinux
 
 - name: copy the ntp.conf to /etc/ntp.conf
   template:
