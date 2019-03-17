@@ -25,7 +25,7 @@
     return_content: yes
     status_code: 200
   register: result
-  until: result.json.global == true
+  until: result.json.global
   retries: 5
   delay: 10
 
