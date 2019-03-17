@@ -9,6 +9,7 @@
   roles:
     - role: init
     - role: graylog-server
+    - role: graylog-api
       vars:
         graylog_root_timezone: "Europe/Kiev"
         graylog_elasticsearch_shards: 1

@@ -1,0 +1,31 @@
+---
+# tasks file for roles/graylog-api
+- name: "place syslog_input bash script"
+  template:
+    src: syslog_input.sh.j2
+    dest: /usr/local/bin/syslog_input.sh
+    mode: 0755
+
+- name: "run syslog_input.sh"
+  command: "/usr/local/bin/syslog_input.sh"
+  args:
+    creates: /var/local/inputID_VALUE
+
+- name: "grab input id if created"
+  command: cat /var/local/inputID_VALUE
+  register: inputID
+  changed_when: false
+
+- name: check graylog input from json
+  uri:
+    url: "http://{{ ansible_default_ipv4.address }}/api/system/inputs/{{ inputID.stdout }}"
+    method: GET
+    user: "{{ graylog_root_username }}"
+    password: "{{ graylog_root_pass }}"
+    return_content: yes
+    status_code: 200
+  register: result
+  until: result.json.global == true
+  retries: 5
+  delay: 10
+
