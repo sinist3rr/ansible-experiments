@@ -26,6 +26,11 @@
     state: disabled
   tags: selinux
 
+- name: install the packages from epel repo
+  yum:
+    name: "{{ epel_packages }}"
+    state: "installed"
+
 - name: copy the ntp.conf to /etc/ntp.conf
   template:
     src: "ntp.conf.j2"

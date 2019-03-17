@@ -11,6 +11,7 @@ common_packages:
 
 epel_packages:
   - "pwgen"
+  - "jq"
   - "htop"
  
 ntp_servers:
