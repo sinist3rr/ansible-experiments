@@ -17,8 +17,8 @@ graylog_is_master:            true
 graylog_node_id_file:         "/etc/graylog/server/node-id"
 graylog_password_secret:      "fAwvF7TuOkHKNZa3EylF2pGZowIrJCJO2HwwNlCJHExHRxUjSLWrZC6xQJXAjyY9XGmFYaeh7WkJ1TjthqnAJffsIgV2GH0x"
 graylog_root_username:        "admin"
+graylog_root_pass:            "graylogPASS"
 graylog_root_password_sha2:   "164fd002d78f0579962350004c1fbebc4f8c6e2cb1d8e9e05f4a9448c970bfdc"
-#                             default pass = 'graylogPASS'
 graylog_bin_dir:              "/usr/share/graylog-server/bin"
 graylog_data_dir:             "/var/lib/graylog-server"
 graylog_plugin_dir:           "/usr/share/graylog-server/plugin"
@@ -107,7 +107,7 @@ graylog_outputbuffer_processor_threads_max_pool_size: 30
 
 # MongoDB
 graylog_mongodb_uri:                                 "mongodb://127.0.0.1:27017/graylog"
-graylog_mongodb_max_connections:                     1000
+graylog_mongodb_max_connections:                     100
 graylog_mongodb_threads_allowed_to_block_multiplier: 5
 
 # Mail
