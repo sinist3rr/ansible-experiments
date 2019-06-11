@@ -68,12 +68,6 @@
     state: present
   when: zfs_deploy
 
-- name: enable snapcore-el7 repo
-  command: "yum copr enable -y ngompa/snapcore-el7"
-  args:
-    creates: /etc/yum.repos.d/_copr_ngompa-snapcore-el7.repo
-    warn: False
-
 - name: install snapd
   yum:
     name: snapd

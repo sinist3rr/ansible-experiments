@@ -8,7 +8,6 @@ lxd_packages:
   - "unzip"
   - "epel-release"
   - "libselinux-python"
-  - "yum-plugin-copr"
 
 zfs_packages:
   - "kernel-devel"
