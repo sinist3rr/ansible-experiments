@@ -1,6 +1,0 @@
-html_body: |
-  This HTML page has been deployed using Ansible to <b>{{ ansible_nodename }}</b>.<br>
-  The user is <b>{{ users.0.name }}</b> who is in the <b>{{ apache_group }}</b> group.<br>
-  The weboot is <b>{{ document_root }}</b>, the default index file is <b>{{ index_file }}</b>.<br>
-  You can access a <a href="/info.php">PHP Info file</a> or <a href="/adminer/">Adminer</a>.
-  <br><b>This is a second {{ ansible_os_family }} host srv3, not the first one srv1!</b>
