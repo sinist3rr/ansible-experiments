@@ -5,13 +5,6 @@ srv ansible_host=192.168.56.100
 srv
 graylogg.example.com
 
-[containers]
-c1   ip_address=10.204.58.111
-c2   ip_address=10.204.58.112
-
-[containers:vars]
-ansible_connection=lxd
-
 [nodes:vars]
 ansible_connection=ssh
 ansible_user=vagrant
